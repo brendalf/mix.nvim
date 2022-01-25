@@ -13,6 +13,8 @@ end
 
 function fugitive:commands()
     vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete M :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]], false)
+    vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete Mx :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]], false)
+    vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete Mix :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]], false)
 end
 
 function fugitive.run(opts)
