@@ -1,4 +1,8 @@
-local mix = {}
+local mix_exs = require('mix-fugitive.mix-exs')
+
+local mix = {
+    mix_exs_path_cache = nil
+}
 
 local function run_command(cmd)
     local result = vim.fn.system(cmd)
@@ -30,8 +34,26 @@ end
 
 function mix.run(action, args)
     local args_as_str = table.concat(args, " ")
-    local cmd = {"mix", action, args_as_str}
+
+    local cd_cmd = ''
+    local mix_exs_path = mix.mix_exs()
+    if mix_exs_path then
+        cd_cmd = table.concat({ 'cd', mix_exs_path, '&&' }, ' ')
+    end
+
+    local cmd = { cd_cmd, "mix", action, args_as_str }
     return run_command(table.concat(cmd, " "))
+end
+
+function mix.mix_exs()
+    if not mix.mix_exs_path_cache then
+        local mix_ops = mix_exs:path_mix_exs()
+        if mix_ops.file_exists then
+            mix.mix_exs_path_cache = mix_ops.mix_dir
+        end
+    end
+
+    return mix.mix_exs_path_cache
 end
 
 return mix

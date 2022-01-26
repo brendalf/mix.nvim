@@ -34,6 +34,10 @@ end
 function fugitive.load_command(start_line, end_line, count, cmd, ...)
     local args = {...}
 
+    if not cmd then
+        return
+    end
+
     --if cmd == nil then
         --fugitive.run_command()
         --return
