@@ -5,7 +5,23 @@ You can access any Mix commands with `:Mix` (or just `:M`).
 > Currently we only support Neovim but we would like to have backwards compatibility with Vim Script in the future.
 
 ## Installation
-> WiP
+Using [vim-plug](https://github.com/junegunn/vim-plug)
+```viml
+Plug 'brendalf/mix-fugitive'
+```
+
+Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
+```lua
+use { 'brendalf/mix-fugitive' }
+```
+
+## Setup
+mix-fugitive needs to be initialized with the setup function.
+
+For example:
+```lua
+require'mix-fugitive'.setup()
+```
 
 ## Contributing
 We welcome any kind of contribution.  
