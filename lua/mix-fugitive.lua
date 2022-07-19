@@ -1,10 +1,10 @@
-local mix = require'mix-fugitive.mix'
+local mix = require 'mix-fugitive.mix'
 --local view = require'mix-fugitive.view'
 
 local fugitive = {}
 --local actions = {
-    --run=mix.run,
-    --help=mix.help,
+--run=mix.run,
+--help=mix.help,
 --}
 
 function M_fugitive_complete(_, line, _)
@@ -12,9 +12,10 @@ function M_fugitive_complete(_, line, _)
 end
 
 function fugitive:commands()
-    vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete M :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]], false)
-    vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete Mx :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]], false)
-    vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete Mix :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]], false)
+    vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete M :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]]
+        , false)
+    vim.api.nvim_exec([[command! -nargs=* -range -complete=custom,v:lua.M_fugitive_complete Mix :lua require'mix-fugitive'.load_command(<line1>, <line2>, <count>, unpack({<f-args>}))]]
+        , false)
 end
 
 function fugitive.run(opts)
@@ -22,7 +23,7 @@ function fugitive.run(opts)
     local args = opts.args
 
     --if action == nil then
-       --action = "run"
+    --action = "run"
     --end
 
     --actions[action](args)
@@ -32,16 +33,11 @@ function fugitive.run(opts)
 end
 
 function fugitive.load_command(start_line, end_line, count, cmd, ...)
-    local args = {...}
+    local args = { ... }
 
     if not cmd then
         return
     end
-
-    --if cmd == nil then
-        --fugitive.run_command()
-        --return
-    --end
 
     local user_opts = {
         start_line = start_line,
