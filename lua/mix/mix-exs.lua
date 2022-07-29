@@ -1,5 +1,6 @@
-local M = {  }
-local git = require('mix-fugitive.git')
+local git = require('git')
+
+local M = {}
 
 function M.path_mix_exs()
     local git_workdir_path = git.workdir_path()

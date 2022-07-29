@@ -1,27 +1,31 @@
-# mix-fugitive
-Mix Fugitive is a Mix wrapper for Neovim.  
+# mix.nvim
+Mix.nvim is a Mix wrapper for Neovim.
 You can access any Mix commands with `:Mix` (or just `:M`).
 
-> Currently we only support Neovim but we would like to have backwards compatibility with Vim Script in the future.
-
 ## Installation
-Using [vim-plug](https://github.com/junegunn/vim-plug)
-```viml
-Plug 'brendalf/mix-fugitive'
-```
-
 Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
 ```lua
-use { 'brendalf/mix-fugitive' }
+use { 'brendalf/mix.nvim' }
+```
+
+Using [vim-plug](https://github.com/junegunn/vim-plug)
+```viml
+Plug 'brendalf/mix.nvim'
 ```
 
 ## Setup
-mix-fugitive needs to be initialized with the setup function.
+mix.nvim needs to be initialized with the setup function.
 
 For example:
 ```lua
-require'mix-fugitive'.setup()
+require("mix").setup()
 ```
+
+## How to use
+If you type `:Mix` and press space, the plugin will automatically load the available Mix commands for you.
+Mix.nvim uses a cache to avoid calling the system every time.
+
+You can find the command you want to execute and press enter `<CR>`.
 
 ## Contributing
 We welcome any kind of contribution.  
