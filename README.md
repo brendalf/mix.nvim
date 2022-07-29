@@ -1,8 +1,9 @@
 # mix.nvim
 Mix.nvim is a Mix wrapper for Neovim.
 
-You can access any Mix commands with `:Mix` (or just `:M`).
+> Requires Neovim >= 0.7
 
+You can access any Mix commands with `:Mix` (or just `:M`).
 
 ![ezgif-1-ca42871cbc](https://user-images.githubusercontent.com/10671410/181785935-dee6da82-f1d2-4ced-a214-dcc202caba45.gif)
 
@@ -29,9 +30,11 @@ require("mix").setup()
 ## How to use
 If you type `:Mix` and press space, the plugin will automatically load the available Mix commands for you.
 
+You can then find the command you want to execute and press enter `<CR>`.
+
 Mix.nvim uses a cache to avoid calling the system every time.
 
-You can find the command you want to execute and press enter `<CR>`.
+To update the cache, you can call `:MixRefreshCompletions`.
 
 ## Contributing
 We welcome any kind of contribution.
