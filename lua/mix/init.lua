@@ -1,4 +1,4 @@
-local mix = require("mix-cmd")
+local mix = require("mix.wrapper")
 
 local M = {}
 

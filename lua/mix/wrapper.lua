@@ -1,4 +1,4 @@
-local mix_exs = require('mix-exs')
+local mix_exs = require("mix.exs")
 
 local M = {
     mix_exs_path_cache = nil
@@ -56,4 +56,4 @@ function M.mix_exs()
     return M.mix_exs_path_cache
 end
 
-return mix
+return M

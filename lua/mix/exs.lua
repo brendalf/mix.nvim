@@ -1,4 +1,4 @@
-local git = require('git')
+local git = require("mix.git")
 
 local M = {}
 
