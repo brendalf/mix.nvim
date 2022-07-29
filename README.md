@@ -3,6 +3,10 @@ Mix.nvim is a Mix wrapper for Neovim.
 
 You can access any Mix commands with `:Mix` (or just `:M`).
 
+
+![ezgif-1-ca42871cbc](https://user-images.githubusercontent.com/10671410/181785935-dee6da82-f1d2-4ced-a214-dcc202caba45.gif)
+
+
 ## Installation
 Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
 ```lua
