@@ -1,4 +1,5 @@
 local mix = require("mix.wrapper")
+local window = require("mix.window")
 
 local M = {}
 
@@ -33,12 +34,23 @@ function M.run(opts)
         return
     end
 
+    window.open_floating_window(vim.g.mix_nvim_buffer)
+
     local result = mix.run(action, args)
-    print(result)
+
+    vim.api.nvim_buf_set_lines(
+        vim.g.mix_nvim_buffer,
+        0, -1, false,
+        vim.split(result, "\n")
+    )
 end
 
-function M.setup(opts)
-    vim.pretty_print(opts)
+function M.setup()
+    if not vim.g.mix_nvim_buffer then
+        vim.g.mix_nvim_buffer = vim.api.nvim_create_buf(false, true)
+        vim.api.nvim_buf_set_name(vim.g.mix_nvim_buffer, "mix.nvim output panel")
+    end
+
     M:commands()
 end
 
