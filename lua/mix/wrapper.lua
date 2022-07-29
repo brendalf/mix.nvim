@@ -15,10 +15,11 @@ function M.refresh_completions()
 end
 
 function M.load_completions(cli_input)
-    local l = #(vim.split(cli_input, " "))
+    local cli_input_cleaned = vim.fn.trim(cli_input)
+    local l = #(vim.split(cli_input_cleaned, " "))
 
     -- Don't print if command already selected
-    if l > 2 then
+    if l > 1 then
         return ""
     end
 
