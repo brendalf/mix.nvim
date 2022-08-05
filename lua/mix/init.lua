@@ -1,5 +1,6 @@
 local mix = require("mix.wrapper")
 local window = require("mix.window")
+local utils = require("mix.utils")
 
 local M = {}
 
@@ -8,7 +9,7 @@ function M_complete(_, line, _)
     return completions
 end
 
-function M:commands()
+function M:commands(opts)
     local mix_complete_options = {
         nargs = "*",
         range = true,
@@ -24,6 +25,13 @@ function M:commands()
         end,
         {}
     )
+end
+
+function M:validate_opts(opts)
+    if not utils.has_value({ "stdout", "floating", "horizontal", "vertical" }, opts["window"]) then
+        error(table.concat({ "opt window = '", opts["window"],
+            "' is not valid. valid options are: stdout, floating, horizontal, and vertical" }))
+    end
 end
 
 function M.run(opts)
@@ -45,13 +53,24 @@ function M.run(opts)
     )
 end
 
-function M.setup()
+function M.setup(user_opts)
     if not vim.g.mix_nvim_buffer then
         vim.g.mix_nvim_buffer = vim.api.nvim_create_buf(false, true)
         vim.api.nvim_buf_set_name(vim.g.mix_nvim_buffer, "mix.nvim output panel")
     end
 
-    M:commands()
+    local opts = user_opts or {}
+    local default_opts = {
+        window = "stdout"
+    }
+
+    local final_opts = vim.tbl_extend("force", default_opts, opts)
+
+    M:validate_opts(final_opts)
+
+    vim.pretty_print(final_opts)
+
+    M:commands(final_opts)
 end
 
 return M
