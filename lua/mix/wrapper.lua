@@ -1,7 +1,7 @@
 local mix_exs = require("mix.exs")
 
 local M = {
-    mix_exs_path_cache = nil
+    mix_exs_path_cache = nil,
 }
 
 local function run_command(cmd)
@@ -36,10 +36,10 @@ end
 function M.run(action, args)
     local args_as_str = table.concat(args, " ")
 
-    local cd_cmd = ''
+    local cd_cmd = ""
     local mix_exs_path = M.mix_exs()
     if mix_exs_path then
-        cd_cmd = table.concat({ 'cd', mix_exs_path, '&&' }, ' ')
+        cd_cmd = table.concat({ "cd", mix_exs_path, "&&" }, " ")
     end
 
     local cmd = { cd_cmd, "mix", action, args_as_str }

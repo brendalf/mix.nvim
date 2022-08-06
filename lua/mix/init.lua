@@ -12,18 +12,14 @@ function M:commands()
     local mix_complete_options = {
         nargs = "*",
         range = true,
-        complete = M_complete
+        complete = M_complete,
     }
     vim.api.nvim_create_user_command("Mix", M.run, mix_complete_options)
     vim.api.nvim_create_user_command("M", M.run, mix_complete_options)
-    vim.api.nvim_create_user_command(
-        "MixRefreshCompletions",
-        function()
-            mix.refresh_completions()
-            vim.notify("Mix commands refreshed")
-        end,
-        {}
-    )
+    vim.api.nvim_create_user_command("MixRefreshCompletions", function()
+        mix.refresh_completions()
+        vim.notify("Mix commands refreshed")
+    end, {})
 end
 
 function M.run(opts)
@@ -38,11 +34,7 @@ function M.run(opts)
 
     local result = mix.run(action, args)
 
-    vim.api.nvim_buf_set_lines(
-        vim.g.mix_nvim_buffer,
-        0, -1, false,
-        vim.split(result, "\n")
-    )
+    vim.api.nvim_buf_set_lines(vim.g.mix_nvim_buffer, 0, -1, false, vim.split(result, "\n"))
 end
 
 function M.setup()
