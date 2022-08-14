@@ -26,17 +26,19 @@ This section should guide you to run your first Mix command with `:Mix`.
 ### Installation
 Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
 ```lua
-use { 'brendalf/mix.nvim' }
+use { 'brendalf/mix.nvim', requires = { "nvim-lua/plenary.nvim" } }
 ```
 
 Using [vim-plug](https://github.com/junegunn/vim-plug)
 ```viml
+Plug 'nvim-lua/plenary.nvim'
 Plug 'brendalf/mix.nvim'
 ```
 
 Using [dein](https://github.com/Shougo/dein.vim)
 ```viml
 call dein#add('nvim-lua/plenary.nvim')
+call dein#add('brendalf/mix.nvim')
 ```
 
 After installing, you need to initialize `mix.nvim` with the setup function.
