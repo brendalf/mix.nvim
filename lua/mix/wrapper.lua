@@ -13,6 +13,7 @@ end
 function M.refresh_completions()
     local cmd = "mix help | awk -F ' ' '{printf \"%s\\n\", $2}' | grep -E \"[^-#]\\w+\""
     vim.g.mix_complete_list = run_command(cmd)
+    vim.notify("Mix commands refreshed")
 end
 
 function M.load_completions(cli_input)

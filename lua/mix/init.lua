@@ -16,10 +16,7 @@ function M.commands()
     }
     vim.api.nvim_create_user_command("Mix", M.run, mix_complete_options)
     vim.api.nvim_create_user_command("M", M.run, mix_complete_options)
-    vim.api.nvim_create_user_command("MixRefreshCompletions", function()
-        mix.refresh_completions()
-        vim.notify("Mix commands refreshed")
-    end, {})
+    vim.api.nvim_create_user_command("MixRefreshCompletions", mix.refresh_completions, {})
 end
 
 function M.run(opts)
