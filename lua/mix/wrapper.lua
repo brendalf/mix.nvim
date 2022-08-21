@@ -5,14 +5,9 @@ local M = {
     mix_exs_path_cache = nil,
 }
 
-local function run_command(cmd)
-    local result = vim.fn.system(cmd)
-    return result
-end
-
 function M.refresh_completions()
     local cmd = "mix help | awk -F ' ' '{printf \"%s\\n\", $2}' | grep -E \"[^-#]\\w+\""
-    vim.g.mix_complete_list = run_command(cmd)
+    vim.g.mix_complete_list = vim.fn.system(cmd)
     vim.notify("Mix commands refreshed")
 end
 
