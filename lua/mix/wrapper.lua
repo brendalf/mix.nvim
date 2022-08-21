@@ -1,4 +1,5 @@
 local mix_exs = require("mix.exs")
+local window = require("mix.window")
 
 local M = {
     mix_exs_path_cache = nil,
@@ -33,26 +34,30 @@ function M.load_completions(cli_input)
     return vim.g.mix_complete_list
 end
 
-function M.run(buf, action, args)
+function M.run(action, args)
     local args_as_str = table.concat(args, " ")
 
-    -- local cd_cmd = ""
-    -- local mix_exs_path = M.mix_exs()
-    -- if mix_exs_path then
-    --     cd_cmd = table.concat({ "cd", mix_exs_path, "&&" }, " ")
-    -- end
+    local cd_cmd = ""
+    local mix_exs_path = M.mix_exs()
 
-    local cmd = {
+
+    if mix_exs_path then
+        cd_cmd = mix_exs_path
+    end
+
+    local cmd = table.concat({
         "mix",
         action,
         args_as_str
-    }
+    }, " ")
 
-    vim.fn.jobstart(cmd, {
-        stdout_buffered = true,
-        on_stdout = function(_, data)
-            if data then
-                vim.api.nvim_buf_set_lines(buf, 0, -1, false, data)
+    window.open_window(vim.g.mix_nvim_config)
+
+    vim.fn.termopen(cmd, {
+        cwd = cd_cmd,
+        on_exit = function()
+            if action == "deps.get" then
+                M.refresh_completions()
             end
         end
     })
