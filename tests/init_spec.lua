@@ -6,10 +6,6 @@ local window = require("mix.window")
 local config = require("mix.config")
 
 describe("init", function()
-    before_each(function()
-        vim.g.mix_nvim_buffer = nil
-    end)
-
     it("should setup plugin", function()
         local s = stub(config, "get_config", {})
 
