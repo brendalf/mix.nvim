@@ -60,7 +60,7 @@ end
 
 function M.mix_exs()
     if not M.mix_exs_path_cache then
-        local mix_ops = mix_exs:path_mix_exs()
+        local mix_ops = mix_exs.path_mix_exs()
         if mix_ops.file_exists then
             M.mix_exs_path_cache = mix_ops.mix_dir
         end

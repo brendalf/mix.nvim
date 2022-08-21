@@ -9,7 +9,7 @@ function M_complete(_, line, _)
     return completions
 end
 
-function M:commands()
+function M.commands()
     local mix_complete_options = {
         nargs = "*",
         range = true,
@@ -44,7 +44,7 @@ function M.setup(user_opts)
 
     vim.g.mix_nvim_config = config.get_config(user_opts)
 
-    M:commands()
+    M.commands()
 end
 
 return M

@@ -20,7 +20,7 @@ function M.get_config(opts)
     local config = opts or {}
     config = vim.tbl_extend("force", M.defaults, config)
 
-    M:validate_config(config)
+    M.validate_config(config)
 
     return config
 end
