@@ -5,14 +5,18 @@ M.defaults = {
     window = "floating"
 }
 
-function M:validate_config(config)
-    if not utils.has_value({ "floating", "horizontal", "vertical" }, config.window) then
-        error(table.concat({ "opt window = '", config["window"],
-            "' is not valid. valid options are: stdout, floating, horizontal, and vertical" }))
+M.possible_values = {
+    window = { "floating", "horizontal", "vertical" }
+}
+
+function M.validate_config(config)
+    if not utils.has_value(M.possible_values.window, config.window) then
+        error(table.concat({ "opt window = '", config.window,
+            "' is not valid. valid options are: ", table.concat(M.possible_values.window, " | ") }))
     end
 end
 
-function M:get_config(opts)
+function M.get_config(opts)
     local config = opts or {}
     config = vim.tbl_extend("force", M.defaults, config)
 
