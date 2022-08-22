@@ -1,17 +1,14 @@
 local mix_exs = require("mix.exs")
+local window = require("mix.window")
 
 local M = {
     mix_exs_path_cache = nil,
 }
 
-local function run_command(cmd)
-    local result = vim.fn.system(cmd)
-    return result
-end
-
 function M.refresh_completions()
     local cmd = "mix help | awk -F ' ' '{printf \"%s\\n\", $2}' | grep -E \"[^-#]\\w+\""
-    vim.g.mix_complete_list = run_command(cmd)
+    vim.g.mix_complete_list = vim.fn.system(cmd)
+    vim.notify("Mix commands refreshed")
 end
 
 function M.load_completions(cli_input)
@@ -38,17 +35,33 @@ function M.run(action, args)
 
     local cd_cmd = ""
     local mix_exs_path = M.mix_exs()
+
+
     if mix_exs_path then
-        cd_cmd = table.concat({ "cd", mix_exs_path, "&&" }, " ")
+        cd_cmd = mix_exs_path
     end
 
-    local cmd = { cd_cmd, "mix", action, args_as_str }
-    return run_command(table.concat(cmd, " "))
+    local cmd = table.concat({
+        "mix",
+        action,
+        args_as_str
+    }, " ")
+
+    window.open_window(vim.g.mix_nvim_config)
+
+    vim.fn.termopen(cmd, {
+        cwd = cd_cmd,
+        on_exit = function()
+            if action == "deps.get" then
+                M.refresh_completions()
+            end
+        end
+    })
 end
 
 function M.mix_exs()
     if not M.mix_exs_path_cache then
-        local mix_ops = mix_exs:path_mix_exs()
+        local mix_ops = mix_exs.path_mix_exs()
         if mix_ops.file_exists then
             M.mix_exs_path_cache = mix_ops.mix_dir
         end

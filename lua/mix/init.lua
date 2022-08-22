@@ -1,5 +1,5 @@
 local mix = require("mix.wrapper")
-local window = require("mix.window")
+local config = require("mix.config")
 
 local M = {}
 
@@ -8,7 +8,7 @@ function M_complete(_, line, _)
     return completions
 end
 
-function M:commands()
+function M.commands()
     local mix_complete_options = {
         nargs = "*",
         range = true,
@@ -16,10 +16,7 @@ function M:commands()
     }
     vim.api.nvim_create_user_command("Mix", M.run, mix_complete_options)
     vim.api.nvim_create_user_command("M", M.run, mix_complete_options)
-    vim.api.nvim_create_user_command("MixRefreshCompletions", function()
-        mix.refresh_completions()
-        vim.notify("Mix commands refreshed")
-    end, {})
+    vim.api.nvim_create_user_command("MixRefreshCompletions", mix.refresh_completions, {})
 end
 
 function M.run(opts)
@@ -30,20 +27,13 @@ function M.run(opts)
         return
     end
 
-    window.open_floating_window(vim.g.mix_nvim_buffer)
-
-    local result = mix.run(action, args)
-
-    vim.api.nvim_buf_set_lines(vim.g.mix_nvim_buffer, 0, -1, false, vim.split(result, "\n"))
+    mix.run(action, args)
 end
 
-function M.setup()
-    if not vim.g.mix_nvim_buffer then
-        vim.g.mix_nvim_buffer = vim.api.nvim_create_buf(false, true)
-        vim.api.nvim_buf_set_name(vim.g.mix_nvim_buffer, "mix.nvim output panel")
-    end
+function M.setup(user_opts)
+    vim.g.mix_nvim_config = config.get_config(user_opts)
 
-    M:commands()
+    M.commands()
 end
 
 return M

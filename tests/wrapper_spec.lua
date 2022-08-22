@@ -44,11 +44,16 @@ describe("wrapper", function()
     end)
 
     it("should run mix commands successfully", function()
-        local s = stub(wrapper, "mix_exs", cwd .. "/mock")
-        local output = wrapper.run("deps.get", {})
+        vim.g.mix_nvim_config = { window = "floating"  }
+        local s_mix_exs = stub(wrapper, "mix_exs", cwd .. "/mock")
+        local s_termopen = stub(vim.fn, "termopen", {})
 
-        assert.equal("All dependencies are up to date\n", output)
-        s:revert()
+        local _ = wrapper.run("deps.get", {})
+
+        assert.stub(vim.fn.termopen).was_called()
+
+        s_mix_exs:revert()
+        s_termopen:revert()
     end)
 
     it("should resolve mix.exs path when not cached", function()
@@ -77,8 +82,7 @@ describe("wrapper", function()
         exs.mix_exs_path_cache = cwd .. "/mock"
         local path = wrapper.mix_exs()
 
-        assert.equal(cwd .. "/mock", path)
-        assert.equal(cwd .. "/mock", wrapper.mix_exs_path_cache)
+        assert.equal(exs.mix_exs_path_cache, path)
         assert.stub(exs.path_mix_exs).was_not_called()
 
         s:revert()
